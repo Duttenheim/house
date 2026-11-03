@@ -133,9 +133,10 @@ a { color: inherit; }
   position: relative;
   z-index: 2;
   font-family: Fraunces, Georgia, serif;
-  font-size: 1.7rem;
+  font-size: clamp(1.05rem, 2.4vw, 1.55rem);
   line-height: 1;
   letter-spacing: -0.03em;
+  white-space: nowrap;
   text-decoration: none;
 }
 
@@ -411,6 +412,8 @@ section[id] { scroll-margin-top: 4.5rem; }
   gap: 1.4rem 0.9rem;
   align-items: start;
 }
+
+.gallery-grid .shot.is-wide { grid-column: 1 / -1; }
 
 .gallery-grid figcaption {
   margin: 0.55rem 0 0;
@@ -725,7 +728,6 @@ dialog[open] .lightbox-frame { animation: rise 0.35s cubic-bezier(.16, 1, .3, 1)
     visibility: visible;
   }
   .js .nav-links a { font-family: Fraunces, Georgia, serif; font-size: 2.2rem; }
-  .gallery-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 700px) {
