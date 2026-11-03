@@ -1,14 +1,13 @@
-# The Linden House
+# The house
 
 A single scrolling page for selling a house. The page is plain HTML, CSS, and JavaScript. Photographs open in a lightbox, and sections ease in as you scroll.
 
-The words, price, address, and photos currently on the page are a sample listing so the layout can be reviewed. Replace them with the property before publishing.
+The page describes this house: an open ground floor, a laundry room, and an upper floor with a master bedroom, a children's room, and an office. Add the price, address, and any missing room photos in `public/index.html`.
 
 ## Replace the listing
 
 - Edit the copy in `public/index.html`. The enquiry address is the `mailto` link in the viewing section.
-- Put photographs in `public/images/` and point the `src` attributes at them. To add a picture to the gallery, copy a `figure.shot` block. The lightbox picks those up automatically.
-- The footer credits Unsplash for the sample photographs. Remove that line when the photos are yours.
+- Put photographs in `public/images/` and point the `src` attributes at the `.jpg` names. A `photo.HEIC` file is converted to `photo.jpg` when the production server starts. To add a picture to the gallery, copy a `figure.shot` block. The lightbox picks those up automatically.
 
 ## Local testing
 
@@ -34,7 +33,10 @@ Checks that the page, stylesheet, script, hero image, and 404 page are served, a
 
 The production server is `server.js`, run with [Bun](https://bun.sh). [PM2](https://pm2.keymetrics.io/) keeps that process up.
 
+On startup, the server converts every HEIC photo in `public/images/` to a JPEG next to it. A JPEG is rewritten only when its HEIC file is newer. Install the converter once on the machine that runs the site:
+
 ```bash
+pip install -r requirements.txt
 npm install -g pm2
 pm2 start ecosystem.config.cjs
 pm2 save

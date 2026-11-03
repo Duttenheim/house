@@ -1,5 +1,7 @@
 * text=auto eol=lf
 *.jpg binary
+*.heic binary
+*.HEIC binary
 *.jpeg binary
 *.png binary
 *.webp binary

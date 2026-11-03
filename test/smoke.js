@@ -56,7 +56,8 @@ try {
   const html = home.body.toString("utf8");
   assert(home.status === 200, `home status ${home.status}`);
   assert(home.type.includes("text/html"), `home type ${home.type}`);
-  assert(html.includes("The Linden House"), "home is missing the listing name");
+  assert(html.includes("Second bedroom"), "home is missing the second bedroom");
+  assert(html.includes("Ground floor room"), "home is missing the ground floor room");
   assert(html.includes('id="gallery"'), "home is missing the gallery");
   assert(html.includes('id="viewing-form"'), "home is missing the enquiry form");
 
@@ -71,7 +72,7 @@ try {
   const icon = await request("/favicon.svg");
   assert(icon.status === 200 && icon.type.includes("image/svg"), "favicon did not load");
 
-  const hero = await request("/images/hero.jpg");
+  const hero = await request("/images/landing-room-1.jpg");
   assert(hero.status === 200 && hero.type.includes("image/jpeg"), `hero type ${hero.type}`);
   assert(hero.body.length > 10000, "hero image looks empty");
 
