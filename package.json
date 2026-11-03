@@ -1,0 +1,15 @@
+{
+  "name": "house",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Single-page scrolling site for a house listing.",
+  "type": "module",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "start": "bun server.js",
+    "test": "node test/smoke.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
