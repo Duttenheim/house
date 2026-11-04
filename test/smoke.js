@@ -59,7 +59,8 @@ try {
   assert(html.includes("Second bedroom"), "home is missing the second bedroom");
   assert(html.includes("Ground floor room"), "home is missing the ground floor room");
   assert(html.includes('id="gallery"'), "home is missing the gallery");
-  assert(html.includes('id="viewing-form"'), "home is missing the enquiry form");
+  assert(html.includes('id="viewing-calendar"'), "home is missing the viewing calendar");
+  assert(html.includes("house-grisslingevagen13d/30min"), "home is missing the Cal.com link");
 
   const css = await request("/css/styles.css");
   assert(css.status === 200 && css.type.includes("text/css"), "stylesheet did not load");

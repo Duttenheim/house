@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <!--
-      Price and the enquiry mailto are still placeholders.
+      Price is still a placeholder.
       Any figure.shot is picked up by the lightbox. Copy a figure to add a photo.
       A landscape shot in the gallery needs class is-wide so it spans the row.
     -->
@@ -38,6 +38,7 @@
         <a href="#gallery">Gallery</a>
         <a href="#details">Details</a>
         <a href="#visit">Enquire</a>
+        <a href="#plans">Plans</a>
       </nav>
     </header>
 
@@ -184,11 +185,66 @@
                 </button>
                 <figcaption>From the side</figcaption>
               </figure>
+              <figure class="shot reveal">
+                <button type="button">
+                  <img src="images/IMG_0322.jpg" alt="Stair with oak treads and a white rail, beside a white door" width="3024" height="4032" loading="lazy" decoding="async">
+                </button>
+                <figcaption>The stair</figcaption>
+              </figure>
             </div>
           </section>
           <section class="room-group">
             <h3>Top floor</h3>
-            <p class="room-empty">Photographs of this floor are still to come.</p>
+            <div class="gallery-grid">
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/top-floor-1.jpg" alt="White daybed in front of brown curtains, with a window to the left and a door to the right" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Daybed and curtains</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/top-floor-2.jpg" alt="White daybed beside a window toward a neighbouring house, with a play shelf and drawing table" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Daybed by the window</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/top-floor-3.jpg" alt="Top floor playroom under the skylights, with a hanging chair, a play tent, and a drawing table" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Playroom under the skylights</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/top-floor-4.jpg" alt="Top floor alcove under a skylight, with a bookcase, an electronic drum kit, and a keyboard" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Books and the music alcove</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/top-floor-5.jpg" alt="Top floor with a play tent, a drawing table, a wooden slide, and a white daybed" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Play corner and daybed</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/top-floor-6.jpg" alt="Top floor skylights looking over trees and water, with a play kitchen on the raised floor" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Skylights over the water</figcaption>
+              </figure>
+              <figure class="shot reveal">
+                <button type="button">
+                  <img src="images/top-floor-7.jpg" alt="Drawing table and stools under a wicker shelf, with a play tent and posters on the wall" width="3024" height="4032" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Drawing table</figcaption>
+              </figure>
+              <figure class="shot reveal">
+                <button type="button">
+                  <img src="images/top-floor-8.jpg" alt="White daybed with grey bedding beside brown curtains and a window" width="3024" height="4032" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Daybed from the side</figcaption>
+              </figure>
+            </div>
           </section>
           <section class="room-group">
             <h3>Ground floor room</h3>
@@ -248,6 +304,13 @@
               <h3>Landing</h3>
               <p>A wide window toward the trees. Set up with a long table and an easel.</p>
             </article>
+            <article class="room-card reveal">
+              <div class="room-media">
+                <img src="images/top-floor-6.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
+              </div>
+              <h3>Top floor</h3>
+              <p>Skylights over a playroom, with a daybed and a view toward the water.</p>
+            </article>
           </div>
         </div>
       </section>
@@ -258,40 +321,42 @@
           <h2>Arrange a viewing</h2>
           <p class="price">On request</p>
           <p>Grisslingevägen 13D, Värmdö.</p>
-          <p>Viewings are private and by appointment. Write who is coming and when you would like to walk the house. The note opens in your email app, addressed to the listing desk.</p>
-          <p><a class="agent-email" href="mailto:hello@example.com">hello@example.com</a></p>
+          <p>Viewings are private. Choose a time in the calendar, and the booking is confirmed there.</p>
         </div>
         <div class="visit-panel">
-          <form id="viewing-form" action="mailto:hello@example.com" method="post" enctype="text/plain">
-            <div class="field">
-              <label for="name">Name</label>
-              <input id="name" name="name" autocomplete="name" required maxlength="120">
-            </div>
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required maxlength="160">
-            </div>
-            <div class="field">
-              <label for="phone">Phone</label>
-              <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40">
-            </div>
-            <div class="field">
-              <label for="when">Preferred date</label>
-              <input id="when" name="when" type="date">
-            </div>
-            <div class="field">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="4" required maxlength="2000"></textarea>
-            </div>
-            <button class="button" type="submit">Request a viewing</button>
-          </form>
-          <div class="form-success" hidden role="status">
-            <h3 tabindex="-1">Ready to send</h3>
-            <p>Your note is addressed to the listing desk. Continue to open it in your email app.</p>
-            <p class="success-actions">
-              <a class="button" data-mail-link href="mailto:hello@example.com">Open email</a>
-              <button class="text-button" type="button" data-edit>Edit message</button>
-            </p>
+          <div id="viewing-calendar" class="visit-calendar"></div>
+          <noscript>
+            <p><a href="https://cal.com/house-grisslingevagen13d/30min">Book a viewing</a></p>
+          </noscript>
+        </div>
+      </section>
+
+      <section class="section" id="plans">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="section-index">05 — Plans</p>
+            <h2>Floor plans</h2>
+            <p class="section-lead">Entrance floor, then the two floors above. Select a plan to see it larger.</p>
+          </div>
+          <div class="plan-list">
+            <figure class="shot reveal">
+              <button type="button">
+                <img src="images/IMG_0336.PNG" alt="Entrance floor plan, with a living and dining room, a kitchen, a laundry, and a shower room" width="1122" height="1402" loading="lazy" decoding="async">
+              </button>
+              <figcaption>Entrance floor</figcaption>
+            </figure>
+            <figure class="shot reveal">
+              <button type="button">
+                <img src="images/IMG_0335.PNG" alt="Plan 2, with three bedrooms, a living room, and a bathroom" width="1122" height="1402" loading="lazy" decoding="async">
+              </button>
+              <figcaption>Plan 2</figcaption>
+            </figure>
+            <figure class="shot reveal">
+              <button type="button">
+                <img src="images/IMG_0334.PNG" alt="Plan 3, with two bedrooms, a bathroom with a bath, and loft storage" width="1122" height="1402" loading="lazy" decoding="async">
+              </button>
+              <figcaption>Plan 3</figcaption>
+            </figure>
           </div>
         </div>
       </section>
@@ -318,5 +383,45 @@
     </dialog>
 
     <script src="js/main.js" defer></script>
+    <script>
+      (function (C, A, L) {
+        var p = function (a, ar) { a.q.push(ar); };
+        var d = C.document;
+        C.Cal = C.Cal || function () {
+          var cal = C.Cal;
+          var ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            d.head.appendChild(d.createElement("script")).src = A;
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            var api = function () { p(api, arguments); };
+            var namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === "string") {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else p(cal, ar);
+            return;
+          }
+          p(cal, ar);
+        };
+      })(window, "https://app.cal.com/embed/embed.js", "init");
+      Cal("init", "viewing", { origin: "https://app.cal.com" });
+      Cal.ns.viewing("inline", {
+        elementOrSelector: "#viewing-calendar",
+        calLink: "house-grisslingevagen13d/30min",
+        config: { layout: "month_view", theme: "light" }
+      });
+      Cal.ns.viewing("ui", {
+        hideEventTypeDetails: false,
+        layout: "month_view",
+        theme: "light",
+        cssVarsPerTheme: { light: { "cal-brand": "#1e2e28" } }
+      });
+    </script>
   </body>
 </html>
