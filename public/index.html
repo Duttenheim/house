@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="image" href="images/landing-room-3.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=visit">
+    <link rel="stylesheet" href="css/styles.css?v=tours">
     <!--
       Price is still a placeholder.
       Any figure.shot is picked up by the lightbox. Copy a figure to add a photo.
@@ -36,6 +36,7 @@
       <nav id="site-menu" class="nav-links">
         <a href="#house">The house</a>
         <a href="#gallery">Gallery</a>
+        <a href="#tours">Tours</a>
         <a href="#details">Details</a>
         <a href="#plans">Plans</a>
         <a href="#visit">Enquire</a>
@@ -95,7 +96,89 @@
           </div>
         </div>
         <div class="wrap-wide">
-          <section class="room-group">
+          <section class="room-group" id="first-floor">
+            <h3>First floor</h3>
+            <div class="gallery-grid">
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/first-floor-1.jpg" alt="Kitchen island with two stools, grey cabinets, and a steel hood over the hob" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Kitchen island</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal" id="dining">
+                <button type="button">
+                  <img src="images/first-floor-2.jpg" alt="Dining table and chairs beneath a water-lily painting, with the stair to the left" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Dining table by the stair</figcaption>
+              </figure>
+              <figure class="shot reveal">
+                <button type="button">
+                  <img src="images/first-floor-3.jpg" alt="Dining table in sunlight, with sheer curtains and a door to the deck" width="3024" height="4032" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Toward the deck</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal" id="living-room">
+                <button type="button">
+                  <img src="images/first-floor-4.jpg" alt="Brown leather sofa and a dark lounge chair, with glass doors onto the deck" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Living room</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/first-floor-5.jpg" alt="Living room with three glass panes looking across the deck toward trees and water" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Windows toward the water</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/first-floor-6.jpg" alt="Kitchen island and grey cabinets, with the front door at the end of the hall" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Kitchen and the front door</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/first-floor-7.jpg" alt="Dining table in the foreground and the living room sofas by the glass doors" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Dining and living together</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/first-floor-8.jpg" alt="Dining table under a water-lily painting, beside the stair and a tall window" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>The dining table</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/first-floor-9.jpg" alt="Kitchen with a white island, a steel fridge, and the front door beyond" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Fridge and island</figcaption>
+              </figure>
+            </div>
+          </section>
+          <section class="room-group" id="landing">
+            <h3>Landing</h3>
+            <div class="gallery-grid">
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/landing-room-3.jpg" alt="Landing with an easel, a work table, and a window onto trees and a white house" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Easel and work table</figcaption>
+              </figure>
+              <figure class="shot reveal">
+                <button type="button">
+                  <img src="images/landing-room-1.jpg" alt="Landing from the side, with an easel, a work table, and a window onto the trees" width="3024" height="4032" loading="lazy" decoding="async">
+                </button>
+                <figcaption>From the side</figcaption>
+              </figure>
+              <figure class="shot reveal">
+                <button type="button">
+                  <img src="images/IMG_0322.jpg" alt="Stair with oak treads and a white rail, beside a white door" width="3024" height="4032" loading="lazy" decoding="async">
+                </button>
+                <figcaption>The stair</figcaption>
+              </figure>
+            </div>
+          </section>
+          <section class="room-group" id="master-bedroom">
             <h3>Master bedroom</h3>
             <div class="gallery-grid">
               <figure class="shot is-wide reveal">
@@ -130,7 +213,7 @@
               </figure>
             </div>
           </section>
-          <section class="room-group">
+          <section class="room-group" id="second-bedroom">
             <h3>Second bedroom</h3>
             <div class="gallery-grid">
               <figure class="shot is-wide reveal">
@@ -159,7 +242,7 @@
               </figure>
             </div>
           </section>
-          <section class="room-group">
+          <section class="room-group" id="third-bedroom">
             <h3>Third bedroom</h3>
             <div class="gallery-grid">
               <figure class="shot is-wide reveal">
@@ -170,30 +253,7 @@
               </figure>
             </div>
           </section>
-          <section class="room-group">
-            <h3>Landing</h3>
-            <div class="gallery-grid">
-              <figure class="shot is-wide reveal">
-                <button type="button">
-                  <img src="images/landing-room-3.jpg" alt="Landing with an easel, a work table, and a window onto trees and a white house" width="4032" height="3024" loading="lazy" decoding="async">
-                </button>
-                <figcaption>Easel and work table</figcaption>
-              </figure>
-              <figure class="shot reveal">
-                <button type="button">
-                  <img src="images/landing-room-1.jpg" alt="Landing from the side, with an easel, a work table, and a window onto the trees" width="3024" height="4032" loading="lazy" decoding="async">
-                </button>
-                <figcaption>From the side</figcaption>
-              </figure>
-              <figure class="shot reveal">
-                <button type="button">
-                  <img src="images/IMG_0322.jpg" alt="Stair with oak treads and a white rail, beside a white door" width="3024" height="4032" loading="lazy" decoding="async">
-                </button>
-                <figcaption>The stair</figcaption>
-              </figure>
-            </div>
-          </section>
-          <section class="room-group">
+          <section class="room-group" id="top-floor">
             <h3>Top floor</h3>
             <div class="gallery-grid">
               <figure class="shot is-wide reveal">
@@ -246,17 +306,66 @@
               </figure>
             </div>
           </section>
-          <section class="room-group">
-            <h3>Ground floor room</h3>
-            <p class="room-empty">The open-plan kitchen, with an island, living, and dining, behind three-pane panoramic windows. Photographs of this room are still to come.</p>
+          <section class="room-group" id="backyard">
+            <h3>Backyard</h3>
+            <div class="gallery-grid">
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/backyard-1.jpg" alt="Deck sofa looking across the lawn and trees toward the water" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>View from the deck</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/backyard-2.jpg" alt="The house from the garden, with the deck, pale timber cladding, and skylights" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>The house from the garden</figcaption>
+              </figure>
+              <figure class="shot is-wide reveal">
+                <button type="button">
+                  <img src="images/backyard-3.jpg" alt="Outdoor sofas and a table on the deck, with trees and water beyond the railing" width="4032" height="3024" loading="lazy" decoding="async">
+                </button>
+                <figcaption>Seating on the deck</figcaption>
+              </figure>
+            </div>
           </section>
+        </div>
+      </section>
+
+      <section class="section" id="tours">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="section-index">03 — Tours</p>
+            <h2>Tours</h2>
+            <p class="section-lead">Short walks through the first floor. Press play on a clip.</p>
+          </div>
+        </div>
+        <div class="wrap-wide">
+          <div class="tour-list">
+            <figure class="tour reveal">
+              <video src="videos/tour-1.mp4" controls playsinline preload="metadata" width="1080" height="1920"></video>
+              <figcaption>Door onto the deck</figcaption>
+            </figure>
+            <figure class="tour reveal">
+              <video src="videos/tour-2.mp4" controls playsinline preload="metadata" width="1080" height="1920"></video>
+              <figcaption>From the kitchen island</figcaption>
+            </figure>
+            <figure class="tour is-wide reveal">
+              <video src="videos/tour-3.mp4" controls playsinline preload="metadata" width="1920" height="1080"></video>
+              <figcaption>Living room from the kitchen</figcaption>
+            </figure>
+            <figure class="tour is-wide reveal">
+              <video src="videos/tour-4.mp4" controls playsinline preload="metadata" width="1920" height="1080"></video>
+              <figcaption>Dining table toward the deck</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
       <section class="section" id="details">
         <div class="wrap">
           <div class="section-head">
-            <p class="section-index">03 — Details</p>
+            <p class="section-index">04 — Details</p>
             <h2>The facts</h2>
             <p class="section-lead">Grisslingevägen 13D, Värmdö. Three floors, five bedrooms, a sea view, and an open-plan kitchen.</p>
           </div>
@@ -276,41 +385,69 @@
           </ul>
           <h3 class="subhead">Rooms</h3>
           <div class="room-grid">
-            <article class="room-card reveal">
+            <a class="room-card reveal" href="#first-floor">
               <div class="room-media">
-                <img src="images/master-bedroom-3.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
+                <img src="images/first-floor-6.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
               </div>
-              <h3>Master bedroom</h3>
-              <p>Striped headboard, panelled walls, and a lamp on each side of the bed.</p>
-            </article>
-            <article class="room-card reveal">
+              <h3>Kitchen</h3>
+              <p>Grey cabinets, a white island, and the front door beyond.</p>
+            </a>
+            <a class="room-card reveal" href="#dining">
               <div class="room-media">
-                <img src="images/bedroom-kids-2.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
+                <img src="images/first-floor-8.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
               </div>
-              <h3>Second bedroom</h3>
-              <p>Two beds, a bookcase between them, and a window toward the water.</p>
-            </article>
-            <article class="room-card reveal">
+              <h3>Dining</h3>
+              <p>A wooden table under a water-lily painting, beside the stair.</p>
+            </a>
+            <a class="room-card reveal" href="#living-room">
               <div class="room-media">
-                <img src="images/office-2.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
+                <img src="images/first-floor-5.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
               </div>
-              <h3>Third bedroom</h3>
-              <p>The smaller bedroom, in use as a study, with a window to the side.</p>
-            </article>
-            <article class="room-card reveal">
+              <h3>Living room</h3>
+              <p>A leather sofa and lounge chair, with glass doors toward the water.</p>
+            </a>
+            <a class="room-card reveal" href="#landing">
               <div class="room-media">
                 <img src="images/landing-room-3.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
               </div>
               <h3>Landing</h3>
               <p>A wide window toward the trees. Set up with a long table and an easel.</p>
-            </article>
-            <article class="room-card reveal">
+            </a>
+            <a class="room-card reveal" href="#master-bedroom">
+              <div class="room-media">
+                <img src="images/master-bedroom-3.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
+              </div>
+              <h3>Master bedroom</h3>
+              <p>Striped headboard, panelled walls, and a lamp on each side of the bed.</p>
+            </a>
+            <a class="room-card reveal" href="#second-bedroom">
+              <div class="room-media">
+                <img src="images/bedroom-kids-2.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
+              </div>
+              <h3>Second bedroom</h3>
+              <p>Two beds, a bookcase between them, and a window toward the water.</p>
+            </a>
+            <a class="room-card reveal" href="#third-bedroom">
+              <div class="room-media">
+                <img src="images/office-2.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
+              </div>
+              <h3>Third bedroom</h3>
+              <p>The smaller bedroom, in use as a study, with a window to the side.</p>
+            </a>
+            <a class="room-card reveal" href="#top-floor">
               <div class="room-media">
                 <img src="images/top-floor-6.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
               </div>
               <h3>Top floor</h3>
               <p>Skylights over a playroom, with a daybed and a view toward the water.</p>
-            </article>
+            </a>
+            <a class="room-card reveal" href="#backyard">
+              <div class="room-media">
+                <img src="images/backyard-3.jpg" alt="" width="4032" height="3024" loading="lazy" decoding="async">
+              </div>
+              <h3>Backyard</h3>
+              <p>A deck and a lawn, looking through the trees toward the water.</p>
+            </a>
           </div>
         </div>
       </section>
@@ -318,7 +455,7 @@
       <section class="section" id="plans">
         <div class="wrap">
           <div class="section-head">
-            <p class="section-index">04 — Plans</p>
+            <p class="section-index">05 — Plans</p>
             <h2>Floor plans</h2>
             <p class="section-lead">Entrance floor, then the two floors above. Select a plan to see it larger.</p>
           </div>
@@ -347,7 +484,7 @@
 
       <section class="visit" id="visit">
         <div class="visit-intro">
-          <p class="section-index">05 — Enquire</p>
+          <p class="section-index">06 — Enquire</p>
           <h2>Arrange a viewing</h2>
           <p class="price">On request</p>
           <p>Grisslingevägen 13D, Värmdö.</p>
