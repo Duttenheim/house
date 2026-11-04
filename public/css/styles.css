@@ -500,24 +500,20 @@ section[id] { scroll-margin-top: 4.5rem; }
 
 .room-card p { margin: 0; color: var(--ink-soft); }
 
-.visit { display: grid; grid-template-columns: 1fr 1fr; }
-
-.visit-intro,
-.visit-panel { padding: clamp(3rem, 7vw, 6rem) clamp(1.4rem, 5vw, 4.5rem); }
-
-.visit-intro {
+.visit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   background: var(--pine);
   color: var(--cream);
 }
 
+.visit-intro,
+.visit-panel { padding: clamp(3rem, 7vw, 6rem) clamp(1.4rem, 5vw, 4.5rem); }
+
 .visit-intro .section-index { color: #e4d2b4; }
 .visit-intro a { color: var(--cream); }
 
-.visit-panel {
-  background: #f7f3ec;
-  padding: 1.25rem;
-  min-height: 740px;
-}
+.visit-panel { min-height: 740px; }
 
 .visit-calendar {
   width: 100%;
