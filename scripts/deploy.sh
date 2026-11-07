@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copy this checkout to /var/www/house and reload the PM2 process.
+# Copy public/ to /var/www/house, which nginx serves as the site root.
 set -euo pipefail
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
@@ -18,20 +18,7 @@ if [[ ! -w "$dest" ]]; then
 fi
 
 rsync -a --delete \
-  --exclude '.git/' \
-  --exclude 'test/' \
-  --exclude 'logs/' \
-  --exclude 'node_modules/' \
   --exclude '.DS_Store' \
-  "$root/" "$dest/"
+  "$root/public/" "$dest/"
 
-mkdir -p "$dest/logs"
-
-if command -v pm2 >/dev/null 2>&1; then
-  pm2 startOrReload "$dest/ecosystem.config.cjs" --update-env
-  pm2 save
-else
-  echo "Files are in $dest. Install PM2, then run: pm2 start $dest/ecosystem.config.cjs && pm2 save"
-fi
-
-echo "Deployed to $dest"
+echo "Deployed public/ to $dest"
