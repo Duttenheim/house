@@ -1,13 +1,14 @@
 import http from "node:http";
 import { readFile, stat } from "node:fs/promises";
-import { contentType, notFoundFile, resolvePublicPath } from "./lib/files.js";
+import { contentType, notFoundFile, requestOrigin, resolvePublicPath, withShareImage } from "./lib/files.js";
 
 const port = Number(process.env.PORT || 3000);
 const host = process.env.HOST || "127.0.0.1";
 
-async function sendFile(res, filePath, status = 200) {
-  const data = await readFile(filePath);
+async function sendFile(res, filePath, status = 200, origin) {
+  let data = await readFile(filePath);
   const ext = filePath.toLowerCase();
+  if (origin && ext.endsWith(".html")) data = Buffer.from(withShareImage(data.toString("utf8"), origin));
   res.writeHead(status, {
     "Content-Type": contentType(filePath),
     "Content-Length": data.length,
@@ -56,7 +57,8 @@ const server = http.createServer(async (req, res) => {
       await sendNotFound(res);
       return;
     }
-    await sendFile(res, filePath, 200);
+    const origin = requestOrigin(url, (name) => req.headers[name]);
+    await sendFile(res, filePath, 200, origin);
   } catch (error) {
     console.error(error);
     if (!res.headersSent) {

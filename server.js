@@ -1,7 +1,7 @@
 import { stat } from "node:fs/promises";
 import { convertHeicImages } from "./lib/convert-images.js";
 import { convertTourVideos } from "./lib/convert-videos.js";
-import { contentType, notFoundFile, resolvePublicPath } from "./lib/files.js";
+import { contentType, notFoundFile, requestOrigin, resolvePublicPath, withShareImage } from "./lib/files.js";
 
 convertHeicImages();
 convertTourVideos();
@@ -52,13 +52,15 @@ Bun.serve({
       return notFound();
     }
     const type = contentType(filePath);
-    return new Response(Bun.file(filePath), {
-      headers: {
-        "Content-Type": type,
-        "X-Content-Type-Options": "nosniff",
-        "Cache-Control": type.startsWith("text/html") ? "no-cache" : "public, max-age=86400",
-      },
-    });
+    const headers = {
+      "Content-Type": type,
+      "X-Content-Type-Options": "nosniff",
+      "Cache-Control": type.startsWith("text/html") ? "no-cache" : "public, max-age=86400",
+    };
+    if (!type.startsWith("text/html")) return new Response(Bun.file(filePath), { headers });
+    const origin = requestOrigin(url, (name) => req.headers.get(name));
+    const html = withShareImage(await Bun.file(filePath).text(), origin);
+    return new Response(html, { headers });
   },
 });
 
