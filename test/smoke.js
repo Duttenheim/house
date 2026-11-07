@@ -57,8 +57,8 @@ try {
   assert(home.status === 200, `home status ${home.status}`);
   assert(home.type.includes("text/html"), `home type ${home.type}`);
   assert(html.includes("Second bedroom"), "home is missing the second bedroom");
-  assert(html.includes("First floor"), "home is missing the first floor");
-  assert(html.includes('id="gallery"'), "home is missing the gallery");
+  assert(html.includes("Kitchen"), "home is missing the kitchen");
+  assert(html.includes('id="rooms"'), "home is missing the rooms");
   assert(html.includes('id="viewing-calendar"'), "home is missing the viewing calendar");
   assert(html.includes("house-grisslingevagen13d/30min"), "home is missing the Cal.com link");
 

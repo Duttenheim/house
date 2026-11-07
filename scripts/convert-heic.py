@@ -1,4 +1,4 @@
-"""Convert HEIC photos in public/images to high-quality JPEG files."""
+"""Convert HEIC photos to JPEG, and write small previews for the lightbox strip."""
 
 import sys
 from pathlib import Path
@@ -18,6 +18,8 @@ pillow_heif.register_heif_opener()
 
 ROOT = Path(__file__).resolve().parents[1]
 IMAGE_DIR = ROOT / "public" / "images"
+THUMB_DIR = IMAGE_DIR / "thumbs"
+THUMB_EDGE = 480
 
 
 def heic_files():
@@ -58,6 +60,40 @@ def convert(source):
     print(f"converted {source.name} -> {destination.name} {image.size[0]}x{image.size[1]}")
 
 
+def picture_files():
+    seen = set()
+    for pattern in ("*.jpg", "*.jpeg", "*.png", "*.JPG", "*.JPEG", "*.PNG"):
+        for path in IMAGE_DIR.glob(pattern):
+            key = path.resolve()
+            if key in seen or not path.is_file():
+                continue
+            seen.add(key)
+            yield path
+
+
+def thumb_destination(source):
+    return THUMB_DIR / f"{source.stem}.jpg"
+
+
+def make_thumb(source):
+    destination = thumb_destination(source)
+    if not needs_convert(source, destination):
+        print(f"up to date thumbs/{destination.name}")
+        return
+    image = ImageOps.exif_transpose(Image.open(source))
+    if image.mode in ("RGBA", "LA") or (image.mode == "P" and "transparency" in image.info):
+        image = image.convert("RGBA")
+        flat = Image.new("RGB", image.size, (255, 255, 255))
+        flat.paste(image, mask=image.getchannel("A"))
+        image = flat
+    elif image.mode != "RGB":
+        image = image.convert("RGB")
+    image.thumbnail((THUMB_EDGE, THUMB_EDGE), Image.Resampling.LANCZOS)
+    THUMB_DIR.mkdir(exist_ok=True)
+    image.save(destination, "JPEG", quality=75, optimize=True, progressive=True)
+    print(f"thumb {source.name} -> thumbs/{destination.name} {image.size[0]}x{image.size[1]}")
+
+
 def main():
     if not IMAGE_DIR.is_dir():
         print(f"No image directory at {IMAGE_DIR}", file=sys.stderr)
@@ -65,9 +101,10 @@ def main():
     files = list(heic_files())
     if not files:
         print("No HEIC images to convert")
-        return 0
     for source in files:
         convert(source)
+    for source in picture_files():
+        make_thumb(source)
     return 0
 
 
