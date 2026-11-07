@@ -225,18 +225,14 @@ const scroller = dialog?.querySelector("[data-lightbox-scroll]");
 const rail = dialog?.querySelector("[data-lightbox-rail]");
 const shots = [...document.querySelectorAll(".shot button")];
 let opener = null;
-let adjusting = false;
 let railIndex = -1;
 let railTarget = 0;
 let railFrame = 0;
 let railDriven = false;
-let committedTop = 0;
-let driving = false;
-const hasScrollEnd = "onscrollend" in window;
+let keyIndex = -1;
 
 function slideFrom(button) {
   const source = button.querySelector("img");
-  const caption = button.closest("figure")?.querySelector("figcaption");
   const slide = document.createElement("figure");
   slide.className = "lightbox-slide";
   const img = document.createElement("img");
@@ -251,20 +247,14 @@ function slideFrom(button) {
     img.setAttribute("data-i18n-attr", "alt");
   }
   img.src = source?.getAttribute("src") || "";
-  const cap = document.createElement("figcaption");
-  cap.textContent = caption?.textContent?.trim() || "";
-  const capKey = caption?.getAttribute("data-i18n");
-  if (capKey) cap.setAttribute("data-i18n", capKey);
-  slide.append(img, cap);
+  slide.append(img);
   return slide;
 }
 
 function buildScroller() {
   if (!scroller || scroller.childElementCount) return;
   const frag = document.createDocumentFragment();
-  for (let copy = 0; copy < 3; copy += 1) {
-    shots.forEach((button) => frag.append(slideFrom(button)));
-  }
+  shots.forEach((button) => frag.append(slideFrom(button)));
   scroller.append(frag);
   if (!rail || rail.childElementCount) return;
   const thumbs = document.createDocumentFragment();
@@ -302,13 +292,10 @@ function buildScroller() {
 }
 
 function warmAround(index) {
-  const count = shots.length;
   const slides = scroller.children;
-  for (let copy = 0; copy < 3; copy += 1) {
-    for (let offset = -1; offset <= 1; offset += 1) {
-      const img = slides[copy * count + ((index + offset + count) % count)]?.querySelector("img");
-      if (img && img.loading !== "eager") img.loading = "eager";
-    }
+  for (let offset = -1; offset <= 1; offset += 1) {
+    const img = slides[index + offset]?.querySelector("img");
+    if (img && img.loading !== "eager") img.loading = "eager";
   }
 }
 
@@ -374,11 +361,34 @@ function moveRail(index, immediate) {
   }
 }
 
+function visibleIndex() {
+  const slides = scroller.children;
+  const mid = scroller.scrollTop + scroller.clientHeight / 2;
+  let best = 0;
+  let bestDist = Infinity;
+  for (let i = 0; i < slides.length; i += 1) {
+    const slide = slides[i];
+    const center = slide.offsetTop + slide.offsetHeight / 2;
+    const dist = Math.abs(center - mid);
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = i;
+    }
+  }
+  return best;
+}
+
+function scrollSlide(index, behavior) {
+  const slide = scroller.children[index];
+  if (!slide) return;
+  const extra = Math.max(0, (scroller.clientHeight - slide.offsetHeight) / 2);
+  const top = Math.max(0, slide.offsetTop - extra);
+  scroller.scrollTo({ top, behavior });
+}
+
 function syncRail(immediate = false) {
-  if (!rail || !scroller) return;
-  const height = scroller.clientHeight;
-  if (!height || !shots.length) return;
-  const index = ((Math.round(scroller.scrollTop / height) % shots.length) + shots.length) % shots.length;
+  if (!rail || !scroller || !shots.length) return;
+  const index = visibleIndex();
   if (index === railIndex) return;
   railIndex = index;
   warmAround(index);
@@ -391,90 +401,25 @@ function syncRail(immediate = false) {
   moveRail(index, immediate);
 }
 
-function recenter() {
-  if (!scroller) return;
-  const height = scroller.clientHeight;
-  const count = shots.length;
-  if (!height || !count) return;
-  const set = count * height;
-  const index = Math.round(scroller.scrollTop / height);
-  if (Math.abs(scroller.scrollTop - index * height) > 2) return;
-  let shift = 0;
-  if (index < count) shift = set;
-  else if (index >= count * 2) shift = -set;
-  if (!shift) return;
-  adjusting = true;
-  scroller.scrollTop += shift;
-  committedTop += shift;
-  requestAnimationFrame(() => { adjusting = false; });
-}
-
 function goBy(steps, behavior) {
-  const height = scroller.clientHeight;
-  const count = shots.length;
-  if (!scroller || !height || !count || !steps) return;
-  const set = count * height;
-  const max = Math.max(0, scroller.scrollHeight - height);
-  let top = committedTop + steps * height;
-  if (top < 0) {
-    adjusting = true;
-    committedTop += set;
-    top += set;
-    scroller.scrollTop += set;
-    adjusting = false;
-  } else if (top > max) {
-    adjusting = true;
-    committedTop -= set;
-    top -= set;
-    scroller.scrollTop -= set;
-    adjusting = false;
-  }
-  committedTop = top;
+  if (!scroller || !shots.length || !steps) return;
+  const base = keyIndex >= 0 ? keyIndex : visibleIndex();
+  const next = Math.max(0, Math.min(shots.length - 1, base + steps));
+  keyIndex = next;
   const smooth = behavior === "smooth" && !reduceMotion;
-  driving = smooth;
-  scroller.scrollTo({ top, behavior: smooth ? "smooth" : "auto" });
+  scrollSlide(next, smooth ? "smooth" : "auto");
   if (!smooth) {
-    recenter();
     railIndex = -1;
     syncRail(true);
   }
 }
 
-function finishScroll() {
-  if (!dialog?.open || adjusting) return;
-  const height = scroller.clientHeight;
-  if (!height) return;
-  if (driving) {
-    if (Math.abs(scroller.scrollTop - committedTop) > 2) {
-      scroller.scrollTo({ top: committedTop, behavior: "auto" });
-      return;
-    }
-    driving = false;
-    recenter();
-    railIndex = -1;
-    syncRail();
-    return;
-  }
-  const traveled = scroller.scrollTop - committedTop;
-  if (Math.abs(traveled) < 48) {
-    if (Math.abs(traveled) > 1) {
-      driving = true;
-      scroller.scrollTo({ top: committedTop, behavior: reduceMotion ? "auto" : "smooth" });
-    }
-    return;
-  }
-  const steps = Math.sign(traveled) * Math.max(1, Math.round(Math.abs(traveled) / height));
-  goBy(steps, reduceMotion ? "auto" : "smooth");
-}
-
 function scrollToShot(button) {
   if (!scroller) return;
   const index = shots.indexOf(button);
-  const height = scroller.clientHeight;
-  if (index < 0 || !height) return;
-  committedTop = (shots.length + index) * height;
-  driving = false;
-  scroller.scrollTo({ top: committedTop, behavior: "auto" });
+  if (index < 0) return;
+  keyIndex = index;
+  scrollSlide(index, "auto");
 }
 
 function openLightbox(button, returnFocus) {
@@ -534,23 +479,23 @@ if (dialog && scroller && typeof dialog.showModal === "function") {
       clearTimeout(railHold);
       railHold = setTimeout(resumeRail, 220);
     }, { passive: true });
-    scroller.addEventListener("pointerdown", resumeRail);
-    scroller.addEventListener("wheel", resumeRail, { passive: true });
+    const releaseKeys = () => { keyIndex = -1; };
+    scroller.addEventListener("pointerdown", () => {
+      resumeRail();
+      releaseKeys();
+    });
+    scroller.addEventListener("wheel", () => {
+      resumeRail();
+      releaseKeys();
+    }, { passive: true });
     railRowQuery.addEventListener("change", () => {
       railIndex = -1;
       if (dialog.open) syncRail(true);
     });
   }
   scroller.addEventListener("scroll", () => {
-    if (!adjusting) syncRail();
+    syncRail();
   }, { passive: true });
-  if (hasScrollEnd) scroller.addEventListener("scrollend", finishScroll);
-  else {
-    scroller.addEventListener("scroll", () => {
-      clearTimeout(scroller.settleTimer);
-      scroller.settleTimer = setTimeout(finishScroll, 140);
-    }, { passive: true });
-  }
   dialog.addEventListener("keydown", (event) => {
     const next = event.key === "ArrowDown" || event.key === "ArrowRight";
     const prev = event.key === "ArrowUp" || event.key === "ArrowLeft";
@@ -560,10 +505,8 @@ if (dialog && scroller && typeof dialog.showModal === "function") {
   });
   window.addEventListener("resize", () => {
     if (!dialog.open) return;
-    const height = scroller.clientHeight;
-    if (!height) return;
-    const index = Math.round(scroller.scrollTop / height) % shots.length;
-    scrollToShot(shots[index]);
+    railIndex = -1;
+    syncRail(true);
   });
 }
 

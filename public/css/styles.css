@@ -1026,31 +1026,21 @@ html.note-open body { overflow: hidden; }
 
 .lightbox-slide {
   width: 100%;
-  height: 100%;
-  margin: 0;
+  height: auto;
+  margin: 1.25rem 0;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 4rem 7.75rem 1.75rem 1.5rem;
-  overflow: hidden;
+  padding: 0 7.75rem 0 1.5rem;
 }
 
 .lightbox-slide img {
   max-width: min(1100px, calc(100vw - 10rem));
-  max-height: calc(100vh - 8.5rem);
+  max-height: calc(100svh - 5rem);
   width: auto;
   height: auto;
   object-fit: contain;
-}
-
-.lightbox-slide figcaption {
-  margin: 0;
-  min-height: 1.4rem;
-  color: var(--cream);
-  text-align: center;
 }
 
 .lightbox-close {
@@ -1226,10 +1216,11 @@ html.note-open body { overflow: hidden; }
     width: 4.6rem;
     aspect-ratio: 4 / 3;
   }
-  .lightbox-slide { padding: 3.5rem 1rem calc(6.4rem + env(safe-area-inset-bottom)); }
+  .lightbox-scroller { padding-bottom: calc(5.2rem + env(safe-area-inset-bottom)); }
+  .lightbox-slide { margin: 0.85rem 0; padding: 0 1rem; }
   .lightbox-slide img {
     max-width: calc(100vw - 2rem);
-    max-height: calc(100svh - 11rem);
+    max-height: calc(100svh - 8rem);
   }
 }
 
