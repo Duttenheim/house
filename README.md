@@ -34,10 +34,11 @@ Checks that the page, stylesheet, script, hero image, and 404 page are served, a
 
 `npm run deploy` copies `public/` to `/var/www/house`. Nginx serves that directory, so `index.html` sits at the site root. The first run creates the folder, using `sudo` only if it cannot be created otherwise. Set `DEPLOY_DIR` to use another path.
 
-Convert photos and tours before deploying. The copy nginx serves is exactly what is in `public/` at that moment:
+Convert photos and tours before deploying. The copy nginx serves is exactly what is in `public/` at that moment. The first command lowercases `.png`, `.jpg`, and `.jpeg` extensions, which is what Linux looks up:
 
 ```bash
 pip install -r requirements.txt
+node scripts/lowercase-extensions.js
 python scripts/convert-heic.py
 swift -suppress-warnings scripts/convert-tours.swift
 npm run deploy

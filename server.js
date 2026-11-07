@@ -1,8 +1,10 @@
 import { stat } from "node:fs/promises";
 import { convertHeicImages } from "./lib/convert-images.js";
 import { convertTourVideos } from "./lib/convert-videos.js";
+import { lowercaseImageExtensions } from "./lib/lowercase-images.js";
 import { contentType, notFoundFile, requestOrigin, resolvePublicPath, withShareImage } from "./lib/files.js";
 
+lowercaseImageExtensions();
 convertHeicImages();
 convertTourVideos();
 
