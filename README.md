@@ -38,9 +38,10 @@ On startup, the server converts every HEIC photo in `public/images/` to a JPEG n
 ```bash
 pip install -r requirements.txt
 npm install -g pm2
-pm2 start ecosystem.config.cjs
-pm2 save
+npm run deploy
 ```
+
+`npm run deploy` copies this checkout to `/var/www/house` and reloads the PM2 process from there. The first run creates that folder, using `sudo` only if the directory cannot be created otherwise. Set `DEPLOY_DIR` to use another path.
 
 PM2 listens on port 3000. Override it by editing `ecosystem.config.cjs`. If PM2 cannot find Bun, set `interpreter` to the full path of the `bun` executable.
 

@@ -5,9 +5,6 @@ const mobileQuery = window.matchMedia("(max-width: 860px)");
 
 document.documentElement.classList.add("js");
 
-const year = document.querySelector("[data-year]");
-if (year) year.textContent = String(new Date().getFullYear());
-
 const nav = document.querySelector("[data-nav]");
 const toggle = document.querySelector(".nav-toggle");
 const menu = document.getElementById("site-menu");
@@ -47,6 +44,84 @@ document.addEventListener("keydown", (event) => {
 
 syncMenu();
 
+const brfNote = document.getElementById("brf-note");
+const brfOpen = document.querySelector("[data-brf-open]");
+if (brfNote && brfOpen && typeof brfNote.showModal === "function") {
+  let noteScrollY = 0;
+  let noteClosing = false;
+
+  function lockNoteScroll() {
+    noteScrollY = window.scrollY;
+    document.documentElement.classList.add("note-open");
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${noteScrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+  }
+
+  function unlockNoteScroll() {
+    document.documentElement.classList.remove("note-open");
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    window.scrollTo({ top: noteScrollY, behavior: "instant" });
+  }
+
+  function openNote() {
+    if (brfNote.open) return;
+    lockNoteScroll();
+    brfNote.showModal();
+    if (reduceMotion) {
+      brfNote.classList.add("is-in");
+      return;
+    }
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => brfNote.classList.add("is-in"));
+    });
+  }
+
+  function closeNote() {
+    if (!brfNote.open || noteClosing) return;
+    if (reduceMotion) {
+      brfNote.classList.remove("is-in");
+      brfNote.close();
+      return;
+    }
+    noteClosing = true;
+    brfNote.classList.remove("is-in");
+    const finish = () => {
+      if (!noteClosing) return;
+      noteClosing = false;
+      brfNote.removeEventListener("transitionend", onEnd);
+      brfNote.close();
+    };
+    const onEnd = (event) => {
+      if (event.target === brfNote && event.propertyName === "opacity") finish();
+    };
+    brfNote.addEventListener("transitionend", onEnd);
+    window.setTimeout(finish, 480);
+  }
+
+  brfOpen.addEventListener("click", openNote);
+  brfNote.querySelector("[data-note-close]")?.addEventListener("click", closeNote);
+  brfNote.addEventListener("click", (event) => {
+    if (event.target === brfNote) closeNote();
+  });
+  brfNote.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeNote();
+  });
+  brfNote.addEventListener("close", () => {
+    brfNote.classList.remove("is-in");
+    noteClosing = false;
+    unlockNoteScroll();
+    brfOpen.focus();
+  });
+}
+
 const progress = document.querySelector(".progress span");
 const parallax = document.querySelector(".hero-parallax");
 const hero = document.querySelector(".hero");
@@ -80,6 +155,35 @@ if (!reduceMotion && parallax && hero && window.matchMedia("(pointer: fine)").ma
     parallax.style.transform = "";
   });
 }
+
+document.querySelectorAll(".tour-frame").forEach((frame) => {
+  const video = frame.querySelector("video");
+  const play = frame.querySelector(".tour-play");
+  if (!video || !play) return;
+
+  const nativeFullscreen = () =>
+    document.fullscreenElement === video || video.webkitDisplayingFullscreen === true;
+
+  function showStill() {
+    if (!video.paused || nativeFullscreen()) return;
+    frame.classList.remove("is-playing");
+    video.controls = false;
+  }
+
+  function start() {
+    frame.classList.add("is-playing");
+    video.controls = true;
+    const pending = video.play();
+    if (pending) pending.catch(() => showStill());
+  }
+
+  play.addEventListener("click", start);
+  video.addEventListener("pause", showStill);
+  video.addEventListener("ended", showStill);
+  document.addEventListener("fullscreenchange", () => {
+    if (!nativeFullscreen() && video.paused) showStill();
+  });
+});
 
 const reveals = document.querySelectorAll(".reveal");
 if (reduceMotion || !("IntersectionObserver" in window)) {
@@ -522,7 +626,10 @@ if (loanForm) {
     const withinCap = deposit >= price * 0.1 && deposit <= price;
     const mortgage = Math.min(Math.max(requested, 0), mortgageCap);
     const ltv = mortgage / price;
-    const amortRate = ltv > 0.7 ? 0.02 : ltv > 0.5 ? 0.01 : 0;
+    const ltvRate = ltv > 0.7 ? 0.02 : ltv > 0.5 ? 0.01 : 0;
+    const incomeMultiple = monthlySalary > 0 && mortgage > 0 ? mortgage / yearlySalary : 0;
+    const incomeExtra = incomeMultiple > 4.5 ? 0.01 : 0;
+    const amortRate = ltvRate + incomeExtra;
     const interest = Number.isFinite(rate) && rate >= 0 ? mortgage * (rate / 100) / 12 : 0;
     const amortization = mortgage * amortRate / 12;
     const total = interest + amortization + monthlyFee + otherMonth;
@@ -543,26 +650,18 @@ if (loanForm) {
       write("status", t("loan.within"));
     }
 
-    if (monthlySalary > 0 && mortgage > 0) {
-      const multiple = mortgage / yearlySalary;
-      const shown = multiple.toLocaleString("sv-SE", { maximumFractionDigits: 1, minimumFractionDigits: 1 });
-      const guide = multiple > 4.5 ? t("loan.guideHigh") : t("loan.guideOk");
-      write("income", t("loan.income", {
-        monthly: kronor.format(monthlySalary),
-        yearly: kronor.format(yearlySalary),
-        multiple: shown,
-        guide,
-      }));
+    const incomeNote = document.querySelector('[data-out="income"]');
+    if (incomeExtra > 0) {
+      write("income", t("loan.incomeExtra"));
+      incomeNote?.classList.add("is-short");
     } else {
-      write("income", t("loan.incomeEmpty"));
+      write("income", "");
+      incomeNote?.classList.remove("is-short");
     }
 
-    const amortText = amortRate === 0
-      ? t("loan.amortNone")
-      : t("loan.amort", { amount: kronor.format(amortization), percent: amortRate * 100 });
     write("mortgage", t("loan.mortgage", { amount: kronor.format(mortgage) }));
     write("interest", Number.isFinite(rate) && rate >= 0 ? kronor.format(interest) : t("loan.addRate"));
-    write("amort", amortText);
+    write("amort", kronor.format(amortization));
     write("power", kronor.format(powerMonth));
     write("insurance", kronor.format(insuranceMonth));
     write("other", kronor.format(otherMonth));
