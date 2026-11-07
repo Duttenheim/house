@@ -312,18 +312,39 @@ function warmAround(index) {
   }
 }
 
+const railRowQuery = window.matchMedia("(max-width: 700px)");
+
+function railIsRow() {
+  return railRowQuery.matches;
+}
+
+function railOffset() {
+  return railIsRow() ? rail.scrollLeft : rail.scrollTop;
+}
+
+function setRailOffset(value) {
+  if (railIsRow()) rail.scrollLeft = value;
+  else rail.scrollTop = value;
+}
+
+function railLimit() {
+  return railIsRow()
+    ? Math.max(0, rail.scrollWidth - rail.clientWidth)
+    : Math.max(0, rail.scrollHeight - rail.clientHeight);
+}
+
 function stepRail() {
   if (railDriven) {
     railFrame = 0;
     return;
   }
-  const diff = railTarget - rail.scrollTop;
+  const diff = railTarget - railOffset();
   if (Math.abs(diff) < 0.6) {
-    rail.scrollTop = railTarget;
+    setRailOffset(railTarget);
     railFrame = 0;
     return;
   }
-  rail.scrollTop += diff * 0.18;
+  setRailOffset(railOffset() + diff * 0.18);
   railFrame = requestAnimationFrame(stepRail);
 }
 
@@ -333,19 +354,22 @@ function moveRail(index, immediate) {
   const railBox = rail.getBoundingClientRect();
   const box = active.getBoundingClientRect();
   const margin = 16;
+  const row = railIsRow();
   let delta = 0;
-  if (box.top < railBox.top + margin) delta = box.top - (railBox.top + margin);
+  if (row) {
+    if (box.left < railBox.left + margin) delta = box.left - (railBox.left + margin);
+    else if (box.right > railBox.right - margin) delta = box.right - (railBox.right - margin);
+  } else if (box.top < railBox.top + margin) delta = box.top - (railBox.top + margin);
   else if (box.bottom > railBox.bottom - margin) delta = box.bottom - (railBox.bottom - margin);
-  const max = Math.max(0, rail.scrollHeight - rail.clientHeight);
-  railTarget = Math.max(0, Math.min(max, rail.scrollTop + delta));
+  railTarget = Math.max(0, Math.min(railLimit(), railOffset() + delta));
   if (immediate || reduceMotion || railDriven) {
     cancelAnimationFrame(railFrame);
     railFrame = 0;
-    if (!railDriven) rail.scrollTop = railTarget;
+    if (!railDriven) setRailOffset(railTarget);
     return;
   }
   if (!railFrame) {
-    if (Math.abs(railTarget - rail.scrollTop) < 1) return;
+    if (Math.abs(railTarget - railOffset()) < 1) return;
     railFrame = requestAnimationFrame(stepRail);
   }
 }
@@ -512,6 +536,10 @@ if (dialog && scroller && typeof dialog.showModal === "function") {
     }, { passive: true });
     scroller.addEventListener("pointerdown", resumeRail);
     scroller.addEventListener("wheel", resumeRail, { passive: true });
+    railRowQuery.addEventListener("change", () => {
+      railIndex = -1;
+      if (dialog.open) syncRail(true);
+    });
   }
   scroller.addEventListener("scroll", () => {
     if (!adjusting) syncRail();

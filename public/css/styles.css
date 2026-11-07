@@ -34,6 +34,13 @@ body {
 
 img { max-width: 100%; display: block; }
 
+figure {
+  margin-block-start: 0;
+  margin-inline-start: 0;
+  margin-block-end: 0;
+  margin-inline-end: 0;
+}
+
 button,
 input,
 textarea { font: inherit; color: inherit; }
@@ -529,7 +536,8 @@ section[id],
 
 .room-card p {
   margin: 0;
-  min-height: 2lh;
+  min-height: 5rem;
+  max-height: 5rem;
   color: var(--ink-soft);
   font-size: 0.95rem;
 }
@@ -543,7 +551,7 @@ section[id],
   align-items: start;
 }
 
-.plan-list .shot { width: 100%; }
+.plan-list .shot { width: 100%; margin: 0; }
 
 .plan-list .shot img { background: #fff; }
 
@@ -1192,12 +1200,37 @@ html.note-open body { overflow: hidden; }
   .cost-grid div:nth-child(even),
   .loan-breakdown div:nth-child(even) { padding-left: 0; border-left: 0; }
   .cost-grid .is-total { grid-column: auto; }
-  .plan-list { grid-template-columns: 1fr; max-width: 28rem; }
+  .plan-list {
+    grid-template-columns: 1fr;
+    max-width: 28rem;
+    margin-inline: auto;
+  }
   .tour-list { grid-template-columns: 1fr; }
   .tour-list .is-wide { grid-column: auto; }
-  .lightbox-rail { width: 4.7rem; padding-inline: 0.5rem; }
-  .lightbox-slide { padding-right: 5.6rem; }
-  .lightbox-slide img { max-width: calc(100vw - 7rem); }
+  .lightbox-rail {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.55rem 0.7rem calc(0.55rem + env(safe-area-inset-bottom));
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-left: 0;
+    border-top: 1px solid rgba(244, 239, 230, 0.16);
+  }
+  .lightbox-rail button {
+    width: 4.6rem;
+    aspect-ratio: 4 / 3;
+  }
+  .lightbox-slide { padding: 3.5rem 1rem calc(6.4rem + env(safe-area-inset-bottom)); }
+  .lightbox-slide img {
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100svh - 11rem);
+  }
 }
 
 @media (max-width: 560px) {
