@@ -70,8 +70,12 @@ try {
   assert(js.status === 200, "script did not load");
   assert(js.body.toString("utf8").includes("lightbox"), "script is missing the lightbox");
 
-  const icon = await request("/favicon.svg");
-  assert(icon.status === 200 && icon.type.includes("image/svg"), "favicon did not load");
+  assert(html.includes('href="/favicon.ico"'), "home is missing the favicon link");
+  const icon = await request("/favicon.ico");
+  assert(icon.status === 200 && icon.type.includes("image/x-icon"), `favicon type ${icon.type}`);
+  assert(icon.body.readUInt16LE(2) === 1, "favicon is not an ico");
+  const svgIcon = await request("/favicon.svg");
+  assert(svgIcon.status === 200 && svgIcon.type.includes("image/svg"), "svg favicon did not load");
 
   const hero = await request("/images/landing-room-1.jpg");
   assert(hero.status === 200 && hero.type.includes("image/jpeg"), `hero type ${hero.type}`);
