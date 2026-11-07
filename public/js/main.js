@@ -223,7 +223,40 @@ document.querySelectorAll(".shot img, .room-card img").forEach((img) => {
 const dialog = document.getElementById("lightbox");
 const scroller = dialog?.querySelector("[data-lightbox-scroll]");
 const rail = dialog?.querySelector("[data-lightbox-rail]");
-const shots = [...document.querySelectorAll(".shot button")];
+
+function shotSrc(button) {
+  return button.querySelector("img")?.getAttribute("src") || "";
+}
+
+function shotNumber(button) {
+  const name = shotSrc(button).split("/").pop() || "";
+  const match = name.match(/-(\d+)\.[^.]+$/);
+  return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
+}
+
+function orderedShots() {
+  const ordered = [];
+  const seen = new Set();
+  document.querySelectorAll(".room-source").forEach((room) => {
+    const buttons = [...room.querySelectorAll(".shot button")].sort((a, b) => shotNumber(a) - shotNumber(b));
+    buttons.forEach((button) => {
+      const src = shotSrc(button);
+      if (!src || seen.has(src)) return;
+      seen.add(src);
+      ordered.push(button);
+    });
+  });
+  document.querySelectorAll(".shot button").forEach((button) => {
+    if (button.closest(".room-source")) return;
+    const src = shotSrc(button);
+    if (!src || seen.has(src)) return;
+    seen.add(src);
+    ordered.push(button);
+  });
+  return ordered;
+}
+
+const shots = orderedShots();
 let opener = null;
 let railIndex = -1;
 let railTarget = 0;
@@ -422,16 +455,23 @@ function scrollToShot(button) {
   scrollSlide(index, "auto");
 }
 
+function galleryShot(button) {
+  if (shots.includes(button)) return button;
+  const src = shotSrc(button);
+  return shots.find((shot) => shotSrc(shot) === src) || null;
+}
+
 function openLightbox(button, returnFocus) {
-  if (!button || !dialog || typeof dialog.showModal !== "function" || !shots.includes(button)) return;
+  const target = galleryShot(button);
+  if (!target || !dialog || typeof dialog.showModal !== "function") return;
   buildScroller();
   opener = returnFocus || button;
   if (!dialog.open) dialog.showModal();
   railIndex = -1;
-  scrollToShot(button);
+  scrollToShot(target);
   syncRail(true);
   requestAnimationFrame(() => {
-    scrollToShot(button);
+    scrollToShot(target);
     railIndex = -1;
     syncRail(true);
   });
