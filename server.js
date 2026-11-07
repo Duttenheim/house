@@ -1,8 +1,10 @@
 import { stat } from "node:fs/promises";
 import { convertHeicImages } from "./lib/convert-images.js";
+import { convertTourVideos } from "./lib/convert-videos.js";
 import { contentType, notFoundFile, resolvePublicPath } from "./lib/files.js";
 
 convertHeicImages();
+convertTourVideos();
 
 const port = Number(process.env.PORT || 3000);
 const host = process.env.HOST || "0.0.0.0";

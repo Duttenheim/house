@@ -8,6 +8,7 @@ The page describes this house: an open ground floor, a laundry room, and an uppe
 
 - Edit the copy in `public/index.html`. The enquiry address is the `mailto` link in the viewing section.
 - Put photographs in `public/images/` and point the `src` attributes at the `.jpg` names. A `photo.HEIC` file is converted to `photo.jpg` when the production server starts. To add a picture to the gallery, copy a `figure.shot` block. The lightbox picks those up automatically.
+- Put a tour in `public/videos/` as a `.MOV`. The same startup converts it to an `.mp4` beside it and writes the first frame to `public/images/` with the same name. Point the tour’s `<video>` at those two files.
 
 ## Local testing
 
@@ -33,7 +34,7 @@ Checks that the page, stylesheet, script, hero image, and 404 page are served, a
 
 The production server is `server.js`, run with [Bun](https://bun.sh). [PM2](https://pm2.keymetrics.io/) keeps that process up.
 
-On startup, the server converts every HEIC photo in `public/images/` to a JPEG next to it. A JPEG is rewritten only when its HEIC file is newer. Install the converter once on the machine that runs the site:
+On startup, the server converts every HEIC photo in `public/images/` to a JPEG next to it. A JPEG is rewritten only when its HEIC file is newer. Install the photo converter once on the machine that runs the site:
 
 ```bash
 pip install -r requirements.txt
@@ -46,3 +47,5 @@ npm run deploy
 PM2 listens on port 3000. Override it by editing `ecosystem.config.cjs`. If PM2 cannot find Bun, set `interpreter` to the full path of the `bun` executable.
 
 `npm start` runs the same Bun server once, without PM2.
+
+A `.MOV` in `public/videos/` is converted to H.264 on startup, and its first frame is written to `public/images/`. The movie is read again only when it is newer than those files. Conversion uses Swift, so on a Mac run `swift -suppress-warnings scripts/convert-tours.swift` before deploy when the server itself is not a Mac.

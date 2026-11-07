@@ -13,9 +13,9 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="image" href="images/first-floor-4.jpg">
+    <link rel="preload" as="image" href="images/hero.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=play">
+    <link rel="stylesheet" href="css/styles.css?v=gap">
     <!--
       The price lives in the facts section. The loan calculator is the Costs section.
       Any figure.shot is picked up by the lightbox. Copy a figure to add a photo.
@@ -53,9 +53,7 @@
     <main>
       <section class="hero" id="top">
         <div class="hero-media">
-          <div class="hero-parallax">
-            <img src="images/first-floor-4.jpg" alt="Brown leather sofa and a dark lounge chair, with glass doors onto the deck" data-i18n="alt.living.sofa" data-i18n-attr="alt" width="4032" height="3024" fetchpriority="high" decoding="async">
-          </div>
+          <video src="videos/hero.mp4" poster="images/hero.jpg" autoplay muted loop playsinline preload="auto" width="1920" height="1080"></video>
         </div>
         <div class="hero-shade" aria-hidden="true"></div>
         <p class="hero-side" data-i18n="hero.sale">For sale</p>
@@ -89,8 +87,7 @@
           <div class="story-copy">
             <p class="section-index" data-i18n="house.index">01 — The house</p>
             <h2 data-i18n="house.heading">Countryside feeling, city convenience.</h2>
-            <p class="lede" data-i18n="house.lede">The ground floor is an open-plan kitchen, living room, and dining room, with an island and three-pane panoramic windows. The laundry opens off that room.</p>
-            <p data-i18n="house.body">Built in 2017, the house has three floors and a sea view. There are six rooms, including a master bedroom with its own bathroom, and skylights on the top floor.</p>
+            <p class="lede" data-i18n="house.lede">Enjoy the best of both worlds — a beautiful beach just 5 minutes away, a cosy café right by the water, preschools within 10 minutes, and the city only 30 minutes away. Everything you need for a relaxed and comfortable lifestyle, with the perfect balance of nature and city convenience.</p>
           </div>
           <figure class="shot story-figure reveal">
             <button type="button">
@@ -571,17 +568,17 @@
             </figure>
             <figure class="tour is-wide reveal">
               <div class="tour-frame">
-                <video src="videos/tour-3.mp4" poster="images/tour-3.jpg" playsinline preload="none" width="1920" height="1080"></video>
+                <video src="videos/tour-3.mp4?v=2" poster="images/tour-3.jpg?v=2" playsinline preload="none" width="1920" height="1080"></video>
                 <button type="button" class="tour-play" aria-label="Play" data-i18n="tour.play" data-i18n-attr="aria-label"><span aria-hidden="true"></span></button>
               </div>
-              <figcaption data-i18n="tour.living">Living room from the kitchen</figcaption>
+              <figcaption data-i18n="tour.second">The second bedroom</figcaption>
             </figure>
             <figure class="tour is-wide reveal">
               <div class="tour-frame">
-                <video src="videos/tour-4.mp4" poster="images/tour-4.jpg" playsinline preload="none" width="1920" height="1080"></video>
+                <video src="videos/tour-4.mp4?v=2" poster="images/tour-4.jpg?v=2" playsinline preload="none" width="1920" height="1080"></video>
                 <button type="button" class="tour-play" aria-label="Play" data-i18n="tour.play" data-i18n-attr="aria-label"><span aria-hidden="true"></span></button>
               </div>
-              <figcaption data-i18n="tour.dining">Dining table toward the deck</figcaption>
+              <figcaption data-i18n="tour.top">The top floor</figcaption>
             </figure>
           </div>
         </div>
@@ -805,8 +802,8 @@
       <div class="lightbox-rail" data-lightbox-rail role="group" aria-label="Photographs" data-i18n="lightbox.rail" data-i18n-attr="aria-label"></div>
     </dialog>
 
-    <script src="js/i18n.js?v=play" defer></script>
-    <script src="js/main.js?v=play" defer></script>
+    <script src="js/i18n.js?v=lede" defer></script>
+    <script src="js/main.js?v=hero" defer></script>
     <script>
       (function (C, A, L) {
         var p = function (a, ar) { a.q.push(ar); };

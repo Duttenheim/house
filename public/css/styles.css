@@ -241,13 +241,11 @@ a { color: inherit; }
 
 .hero-media { overflow: hidden; }
 
-.hero-parallax,
-.hero-parallax img { width: 100%; height: 100%; }
-
-.hero-parallax img {
+.hero-media video {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: center 70%;
-  animation: ken 32s ease-in-out infinite alternate;
+  object-position: center;
 }
 
 .hero-shade {
@@ -271,7 +269,7 @@ a { color: inherit; }
 .hero-copy { position: relative; z-index: 1; max-width: 44rem; }
 
 .hero h1 {
-  margin: 0 0 calc(2rem + 1.2rem * 1.6);
+  margin: 0 0 calc(4.5rem + 1.2rem * 1.6);
   font-size: clamp(3.6rem, 11vw, 8.4rem);
   line-height: 0.84;
 }
@@ -1143,11 +1141,6 @@ html.note-open body { overflow: hidden; }
   to { opacity: 1; transform: none; }
 }
 
-@keyframes ken {
-  from { transform: scale(1.08); }
-  to { transform: scale(1.14) translate3d(-1.5%, -1%, 0); }
-}
-
 @keyframes pulse {
   70% { box-shadow: 0 0 0 8px rgba(230, 201, 138, 0); }
   100% { box-shadow: 0 0 0 0 rgba(230, 201, 138, 0); }
@@ -1226,7 +1219,6 @@ html.note-open body { overflow: hidden; }
     animation: none;
     transition: none;
   }
-  .hero-parallax img,
   .status i,
   .scroll-cue i { animation: none; }
   .js .story-figure img,

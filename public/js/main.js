@@ -123,8 +123,11 @@ if (brfNote && brfOpen && typeof brfNote.showModal === "function") {
 }
 
 const progress = document.querySelector(".progress span");
-const parallax = document.querySelector(".hero-parallax");
-const hero = document.querySelector(".hero");
+const heroVideo = document.querySelector(".hero-media video");
+if (heroVideo && reduceMotion) {
+  heroVideo.removeAttribute("autoplay");
+  heroVideo.pause();
+}
 
 function onScroll() {
   const y = window.scrollY;
@@ -143,18 +146,6 @@ window.addEventListener("scroll", () => {
     ticking = false;
   });
 }, { passive: true });
-
-if (!reduceMotion && parallax && hero && window.matchMedia("(pointer: fine)").matches) {
-  hero.addEventListener("pointermove", (event) => {
-    const rect = hero.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - 0.5;
-    const y = (event.clientY - rect.top) / rect.height - 0.5;
-    parallax.style.transform = `translate3d(${(x * -8).toFixed(2)}px, ${(y * -6).toFixed(2)}px, 0)`;
-  });
-  hero.addEventListener("pointerleave", () => {
-    parallax.style.transform = "";
-  });
-}
 
 document.querySelectorAll(".tour-frame").forEach((frame) => {
   const video = frame.querySelector("video");
