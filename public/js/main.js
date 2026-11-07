@@ -191,7 +191,7 @@ function buildScroller() {
     img.decoding = "async";
     const full = source?.getAttribute("src") || "";
     const file = full.split("/").pop() || "";
-    const preview = file ? `images/thumbs/${file.replace(/\.[^.]+$/, "")}.jpg` : "";
+    const preview = file ? `images/thumbs/${file.replace(/\.[^.]+$/, "")}.jpg?v=floor4` : "";
     img.src = preview || full;
     if (preview && full) {
       img.addEventListener("error", () => {
@@ -460,6 +460,9 @@ const loanForm = document.getElementById("loan-calculator");
 if (loanForm) {
   const price = 7495000;
   const monthlyFee = 7550;
+  const powerMonth = 29000 / 12;
+  const insuranceMonth = 6000 / 12;
+  const otherMonth = powerMonth + insuranceMonth;
   const minimumDeposit = Math.round(price * 0.05);
   const mortgageCap = price * 0.9;
   const kronor = new Intl.NumberFormat("sv-SE", {
@@ -471,7 +474,6 @@ if (loanForm) {
   const depositInput = document.getElementById("deposit");
   const salaryInput = document.getElementById("salary");
   const rateInput = document.getElementById("rate");
-  const energyInput = document.getElementById("energy");
 
   function readMoney(input) {
     const digits = input.value.replace(/\D/g, "");
@@ -516,7 +518,6 @@ if (loanForm) {
     const yearlySalary = monthlySalary * 12;
     const rateRaw = rateInput.value.trim();
     const rate = rateRaw === "" ? Number.NaN : Number(rateRaw);
-    const energy = Math.max(0, readMoney(energyInput));
     const requested = price - deposit;
     const withinCap = deposit >= price * 0.1 && deposit <= price;
     const mortgage = Math.min(Math.max(requested, 0), mortgageCap);
@@ -524,12 +525,12 @@ if (loanForm) {
     const amortRate = ltv > 0.7 ? 0.02 : ltv > 0.5 ? 0.01 : 0;
     const interest = Number.isFinite(rate) && rate >= 0 ? mortgage * (rate / 100) / 12 : 0;
     const amortization = mortgage * amortRate / 12;
-    const total = interest + amortization + monthlyFee + energy;
+    const total = interest + amortization + monthlyFee + otherMonth;
     const yearlyInterest = interest * 12;
     const fullRelief = Math.min(yearlyInterest, 100000);
     const restRelief = Math.max(0, yearlyInterest - 100000);
     const interestAfterTax = (yearlyInterest - (fullRelief * 0.3 + restRelief * 0.21)) / 12;
-    const afterTax = interestAfterTax + amortization + monthlyFee + energy;
+    const afterTax = interestAfterTax + amortization + monthlyFee + otherMonth;
 
     if (deposit < minimumDeposit) {
       write("status", t("loan.depositMin", { amount: kronor.format(minimumDeposit) }));
@@ -562,19 +563,20 @@ if (loanForm) {
     write("mortgage", t("loan.mortgage", { amount: kronor.format(mortgage) }));
     write("interest", Number.isFinite(rate) && rate >= 0 ? kronor.format(interest) : t("loan.addRate"));
     write("amort", amortText);
+    write("power", kronor.format(powerMonth));
+    write("insurance", kronor.format(insuranceMonth));
+    write("other", kronor.format(otherMonth));
     write("total", kronor.format(total));
     write("after-tax", Number.isFinite(rate) && rate >= 0 ? kronor.format(afterTax) : t("loan.addRate"));
   }
 
-  [depositInput, salaryInput, energyInput].forEach((input) => {
+  [depositInput, salaryInput].forEach((input) => {
     if (!input) return;
     input.addEventListener("input", () => formatMoneyInput(input));
     formatMoneyInput(input);
   });
   loanForm.addEventListener("input", updateLoan);
   loanForm.addEventListener("change", updateLoan);
-  energyInput?.addEventListener("input", updateLoan);
-  energyInput?.addEventListener("change", updateLoan);
   updateLoan();
   document.addEventListener("languagechange", updateLoan);
 }

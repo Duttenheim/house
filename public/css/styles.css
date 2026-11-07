@@ -246,7 +246,7 @@ a { color: inherit; }
 
 .hero-parallax img {
   object-fit: cover;
-  object-position: center 42%;
+  object-position: center 70%;
   animation: ken 32s ease-in-out infinite alternate;
 }
 
@@ -478,16 +478,23 @@ section[id],
   font-size: 1.45rem;
 }
 
-.room-card p { margin: 0; color: var(--ink-soft); font-size: 0.95rem; }
+.room-card p {
+  margin: 0;
+  min-height: 2lh;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
 
 .room-empty { margin: 0; color: var(--ink-soft); }
 
 .plan-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.4rem 1rem;
   align-items: start;
 }
+
+.plan-list .shot { width: 100%; }
 
 .plan-list .shot img { background: #fff; }
 
@@ -540,6 +547,20 @@ section[id],
   display: grid;
   grid-template-columns: 1fr 1fr;
   border-top: 1px solid var(--line);
+}
+
+.fact-groups { margin-top: 2.4rem; }
+
+.fact-group + .fact-group { margin-top: 2.8rem; }
+
+.fact-group h3 {
+  margin: 0 0 0.85rem;
+  color: var(--brass-deep);
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .features li {
@@ -641,16 +662,30 @@ section[id],
   font-variant-numeric: tabular-nums;
 }
 
-.cost-grid input {
-  width: 100%;
-  max-width: 12rem;
-  padding: 0.15rem 0;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  background: transparent;
-  font: inherit;
-  font-size: inherit;
-  letter-spacing: inherit;
+.cost-parts {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  max-width: 22rem;
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+.cost-parts li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.35rem;
+}
+
+.cost-parts li span:last-child {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .loan-form {
@@ -947,7 +982,8 @@ dialog[open] {
   .section-head,
   .story-grid,
   .visit { grid-template-columns: 1fr; }
-  .room-grid { grid-template-columns: 1fr 1fr; }
+  .room-grid,
+  .plan-list { grid-template-columns: 1fr 1fr; }
   .js .nav-toggle { display: grid; }
   .js .nav-links {
     position: fixed;
