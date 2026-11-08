@@ -730,7 +730,6 @@ section[id],
 .cost-grid div:nth-child(even),
 .loan-breakdown div:nth-child(even) {
   padding-left: 1.25rem;
-  border-left: 1px solid var(--line);
 }
 
 .cost-grid .is-total {
